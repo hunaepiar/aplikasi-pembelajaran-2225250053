@@ -1,6 +1,370 @@
 import { useState } from "react";
 import "./App.css";
 
+function Pretest() {
+  const soalPretest = [
+    {
+      soal: "Apa yang dimaksud dengan pajak?",
+      pilihan: [
+        "Iuran wajib berdasarkan undang-undang",
+        "Hadiah dari pemerintah",
+        "Pinjaman dari masyarakat",
+        "Sumbangan sukarela",
+      ],
+      jawaban: 0,
+    },
+    {
+      soal: "Salah satu fungsi pajak adalah ...",
+      pilihan: [
+        "Membiayai pengeluaran negara",
+        "Menambah utang masyarakat",
+        "Menghapus kegiatan ekonomi",
+        "Menggantikan pendapatan warga",
+      ],
+      jawaban: 0,
+    },
+    {
+      soal: "Pajak digunakan untuk kepentingan ...",
+      pilihan: [
+        "Masyarakat dan negara",
+        "Satu orang saja",
+        "Pemilik toko",
+        "Kelompok tertentu",
+      ],
+      jawaban: 0,
+    },
+    {
+      soal: "Manakah contoh pajak daerah?",
+      pilihan: [
+        "Pajak kendaraan bermotor",
+        "Uang saku",
+        "Hadiah ulang tahun",
+        "Tabungan pribadi",
+      ],
+      jawaban: 0,
+    },
+    {
+      soal: "Mengapa masyarakat perlu membayar pajak?",
+      pilihan: [
+        "Mendukung pembangunan dan layanan publik",
+        "Agar semua barang gratis",
+        "Untuk menambah uang pribadi",
+        "Agar tidak perlu bekerja",
+      ],
+      jawaban: 0,
+    },
+  ];
+
+  const [nomor, setNomor] = useState(0);
+  const [jawabanSiswa, setJawabanSiswa] = useState({});
+  const [selesai, setSelesai] = useState(false);
+
+  const benar = soalPretest.filter(
+    (soal, i) => jawabanSiswa[i] === soal.jawaban
+  ).length;
+
+  const nilai = Math.round((benar / soalPretest.length) * 100);
+
+  function simpanHasil() {
+    localStorage.setItem("nilaiPretest", String(nilai));
+    setSelesai(true);
+  }
+
+  return (
+    <section className="halaman-kosong">
+      <h1>Pretest</h1>
+      <p>Kerjakan soal berikut untuk mengetahui kemampuan awalmu.</p>
+
+      {!selesai ? (
+        <div className="form-profil">
+          <p>
+            Soal {nomor + 1} dari {soalPretest.length}
+          </p>
+
+          <h2>{soalPretest[nomor].soal}</h2>
+
+          {soalPretest[nomor].pilihan.map((pilihan, i) => (
+            <label
+              key={i}
+              style={{
+                display: "block",
+                padding: "10px",
+                margin: "8px 0",
+                border: "1px solid #ccc",
+                borderRadius: "8px",
+                cursor: "pointer",
+              }}
+            >
+              <input
+                type="radio"
+                name={`pretest-${nomor}`}
+                checked={jawabanSiswa[nomor] === i}
+                onChange={() =>
+                  setJawabanSiswa({
+                    ...jawabanSiswa,
+                    [nomor]: i,
+                  })
+                }
+              />{" "}
+              {String.fromCharCode(65 + i)}. {pilihan}
+            </label>
+          ))}
+
+          <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
+            {nomor > 0 && (
+              <button
+                className="tombol-utama"
+                onClick={() => setNomor(nomor - 1)}
+              >
+                Sebelumnya
+              </button>
+            )}
+
+            {nomor < soalPretest.length - 1 ? (
+              <button
+                className="tombol-utama"
+                disabled={jawabanSiswa[nomor] === undefined}
+                onClick={() => setNomor(nomor + 1)}
+              >
+                Selanjutnya
+              </button>
+            ) : (
+              <button
+                className="tombol-utama"
+                disabled={
+                  Object.keys(jawabanSiswa).length !== soalPretest.length
+                }
+                onClick={simpanHasil}
+              >
+                Selesai Pretest
+              </button>
+            )}
+          </div>
+        </div>
+      ) : (
+        <div className="form-profil">
+          <h2>Pretest Selesai!</h2>
+          <p>Jawaban benar: {benar} dari {soalPretest.length} soal</p>
+          <h2>Nilai: {nilai}</h2>
+        </div>
+      )}
+    </section>
+  );
+}
+
+function Posttest() {
+  const soalPosttest = [
+    {
+      soal: "Apa tujuan utama pajak bagi negara?",
+      pilihan: [
+        "Membiayai pembangunan dan kebutuhan negara",
+        "Menambah uang pribadi warga",
+        "Mengurangi fasilitas umum",
+        "Menggantikan seluruh kegiatan ekonomi",
+      ],
+      jawaban: 0,
+    },
+    {
+      soal: "Pajak termasuk sumber pendapatan ...",
+      pilihan: [
+        "Negara",
+        "Pribadi",
+        "Keluarga",
+        "Perusahaan saja",
+      ],
+      jawaban: 0,
+    },
+    {
+      soal: "Contoh pajak daerah adalah ...",
+      pilihan: [
+        "Pajak kendaraan bermotor",
+        "Uang jajan",
+        "Uang tabungan",
+        "Hadiah",
+      ],
+      jawaban: 0,
+    },
+    {
+      soal: "Siapa yang wajib membayar pajak sesuai ketentuan?",
+      pilihan: [
+        "Wajib pajak",
+        "Hanya pejabat",
+        "Hanya guru",
+        "Hanya pelajar",
+      ],
+      jawaban: 0,
+    },
+    {
+      soal: "Pajak digunakan untuk mendukung ...",
+      pilihan: [
+        "Pembangunan dan pelayanan masyarakat",
+        "Kebutuhan pribadi seseorang",
+        "Hadiah individu",
+        "Belanja pribadi",
+      ],
+      jawaban: 0,
+    },
+  ];
+
+  const [nomor, setNomor] = useState(0);
+  const [jawabanSiswa, setJawabanSiswa] = useState({});
+  const [selesai, setSelesai] = useState(false);
+
+  const benar = soalPosttest.filter(
+    (soal, i) => jawabanSiswa[i] === soal.jawaban
+  ).length;
+
+  const nilai = Math.round((benar / soalPosttest.length) * 100);
+
+  function simpanHasil() {
+    localStorage.setItem("nilaiPosttest", String(nilai));
+    setSelesai(true);
+  }
+
+  return (
+    <section className="halaman-kosong">
+      <h1>Posttest</h1>
+      <p>Kerjakan soal berikut setelah mempelajari materi.</p>
+
+      {!selesai ? (
+        <div className="form-profil">
+          <p>
+            Soal {nomor + 1} dari {soalPosttest.length}
+          </p>
+
+          <h2>{soalPosttest[nomor].soal}</h2>
+
+          {soalPosttest[nomor].pilihan.map((pilihan, i) => (
+            <label
+              key={i}
+              style={{
+                display: "block",
+                padding: "10px",
+                margin: "8px 0",
+                border: "1px solid #ccc",
+                borderRadius: "8px",
+                cursor: "pointer",
+              }}
+            >
+              <input
+                type="radio"
+                name={`posttest-${nomor}`}
+                checked={jawabanSiswa[nomor] === i}
+                onChange={() =>
+                  setJawabanSiswa({
+                    ...jawabanSiswa,
+                    [nomor]: i,
+                  })
+                }
+              />{" "}
+              {String.fromCharCode(65 + i)}. {pilihan}
+            </label>
+          ))}
+
+          <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
+            {nomor > 0 && (
+              <button
+                className="tombol-utama"
+                onClick={() => setNomor(nomor - 1)}
+              >
+                Sebelumnya
+              </button>
+            )}
+
+            {nomor < soalPosttest.length - 1 ? (
+              <button
+                className="tombol-utama"
+                disabled={jawabanSiswa[nomor] === undefined}
+                onClick={() => setNomor(nomor + 1)}
+              >
+                Selanjutnya
+              </button>
+            ) : (
+              <button
+                className="tombol-utama"
+                disabled={
+                  Object.keys(jawabanSiswa).length !== soalPosttest.length
+                }
+                onClick={simpanHasil}
+              >
+                Selesai Posttest
+              </button>
+            )}
+          </div>
+        </div>
+      ) : (
+        <div className="form-profil">
+          <h2>Posttest Selesai!</h2>
+          <p>Jawaban benar: {benar} dari {soalPosttest.length} soal</p>
+          <h2>Nilai: {nilai}</h2>
+        </div>
+      )}
+    </section>
+  );
+}
+
+function Evaluasi() {
+  const nilaiPretest = localStorage.getItem("nilaiPretest");
+  const nilaiPosttest = localStorage.getItem("nilaiPosttest");
+
+  const nilaiLatihan = localStorage.getItem("nilaiLatihan");
+
+  const pretest = nilaiPretest !== null ? Number(nilaiPretest) : null;
+  const posttest = nilaiPosttest !== null ? Number(nilaiPosttest) : null;
+  const latihan = nilaiLatihan !== null ? Number(nilaiLatihan) : null;
+
+  const peningkatan =
+    pretest !== null && posttest !== null
+      ? posttest - pretest
+      : null;
+
+  return (
+    <section className="halaman-kosong">
+      <h1>Evaluasi Pembelajaran</h1>
+      <p>Berikut adalah rekap hasil belajar kamu.</p>
+
+      <div className="form-profil">
+        <h2>Hasil Pretest</h2>
+        <h2>{pretest !== null ? pretest : "Belum dikerjakan"}</h2>
+      </div>
+
+      <div className="form-profil">
+        <h2>Hasil Posttest</h2>
+        <h2>{posttest !== null ? posttest : "Belum dikerjakan"}</h2>
+      </div>
+
+      <div className="form-profil">
+        <h2>Hasil Latihan Soal</h2>
+        <h2>{latihan !== null ? latihan : "Belum dikerjakan"}</h2>
+      </div>
+
+      <div className="form-profil">
+        <h2>Analisis Peningkatan</h2>
+
+        {peningkatan !== null ? (
+          <>
+            <h2>
+              {peningkatan > 0
+                ? `Meningkat ${peningkatan} poin`
+                : peningkatan < 0
+                ? `Menurun ${Math.abs(peningkatan)} poin`
+                : "Nilai tetap"}
+            </h2>
+            <p>
+              Perbandingan nilai Posttest dengan Pretest.
+            </p>
+          </>
+        ) : (
+          <p>
+            Selesaikan Pretest dan Posttest terlebih dahulu
+            untuk melihat peningkatan hasil belajar.
+          </p>
+        )}
+      </div>
+    </section>
+  );
+}
+
 function App() {
   const [halaman, setHalaman] = useState("Beranda");
   const [levelKuis, setLevelKuis] = useState(1);
@@ -21,6 +385,9 @@ const [daerahSiswa, setDaerahSiswa] = useState("");
   const menu = [
     { nama: "Beranda", ikon: "🏠" },
     { nama: "Materi", ikon: "📚" },
+    { nama: "Pretest", ikon: "📝" },
+    { nama: "Posttest", ikon: "📋" },
+    { nama: "Evaluasi", ikon: "📊" },
     { nama: "Contoh Soal", ikon: "📝" },
     { nama: "Kuis", ikon: "🎯" },
     { nama: "Latihan", ikon: "✏️" },
@@ -1740,13 +2107,31 @@ return (
                         const jawaban = jawabanLatihan[levelLatihan]?.[soal.nomor] || "";
                         const benar = jawaban.replace(/\D/g, "") === soal.jawaban;
 
-                        setHasilLatihan((lama) => ({
-                          ...lama,
-                          [levelLatihan]: {
-                            ...lama[levelLatihan],
-                            [soal.nomor]: benar
-                          }
-                        }));
+                        setHasilLatihan((lama) => {
+  const hasilBaru = {
+    ...lama,
+    [levelLatihan]: {
+      ...lama[levelLatihan],
+      [soal.nomor]: benar
+    }
+  };
+
+  const semuaHasil = Object.values(hasilBaru).flatMap(
+    (level) => Object.values(level)
+  );
+
+  const jumlahBenar = semuaHasil.filter(
+    (hasil) => hasil === true
+  ).length;
+
+  const nilai = Math.round(
+    (jumlahBenar / semuaHasil.length) * 100
+  );
+
+  localStorage.setItem("nilaiLatihan", String(nilai));
+
+  return hasilBaru;
+});
                       }}
                     >
                       Periksa Jawaban
@@ -1788,6 +2173,12 @@ return (
               )}
             </section>
           )}
+
+          {halaman === "Pretest" && <Pretest />}
+
+          {halaman === "Posttest" && <Posttest />}
+
+          {halaman === "Evaluasi" && <Evaluasi />}
 
           {halaman === "Kuis" && (
             <section className="kuis-halaman">
@@ -2023,6 +2414,9 @@ return (
             halaman !== "Contoh Soal" &&
             halaman !== "Kuis" &&
             halaman !== "Latihan" &&
+            halaman !== "Pretest" &&
+            halaman !== "Posttest" &&
+            halaman !== "Evaluasi" &&
             halaman !== "Profil" && (
               <section className="halaman-kosong">
                 <span className="halaman-ikon">

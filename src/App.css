@@ -635,3 +635,72 @@ button {
   margin: 10px auto 25px;
   cursor: pointer;
 }
+/* PRETEST, POSTTEST, DAN EVALUASI */
+
+.halaman-kosong {
+  padding: 30px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.halaman-kosong h1 {
+  color: #173b68;
+  margin-bottom: 12px;
+}
+
+.halaman-kosong > p {
+  color: #64748b;
+  margin-bottom: 25px;
+}
+
+.halaman-kosong .form-profil {
+  background: #ffffff;
+  padding: 25px;
+  margin: 20px 0;
+  border-radius: 15px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.halaman-kosong .form-profil h2 {
+  color: #173b68;
+  margin-bottom: 15px;
+}
+
+.halaman-kosong .form-profil label {
+  background: #f8fafc;
+  transition: 0.2s;
+}
+
+.halaman-kosong .form-profil label:hover {
+  background: #eaf2ff;
+  border-color: #2563eb !important;
+}
+
+.halaman-kosong .form-profil input[type="radio"] {
+  margin-right: 8px;
+  accent-color: #2563eb;
+}
+
+.halaman-kosong button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .halaman-kosong {
+    padding: 15px;
+  }
+
+  .halaman-kosong .form-profil {
+    padding: 18px;
+  }
+
+  .halaman-kosong h1 {
+    font-size: 25px;
+  }
+
+  .halaman-kosong .form-profil h2 {
+    font-size: 19px;
+  }
+}
